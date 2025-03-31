@@ -3,8 +3,10 @@ name: 'Lint Code'
 on:
   push:
     branches: [master, main]
+    types: [synchronize]
   pull_request:
     branches: [master, main]
+    types: [synchronize]
     
 jobs:
   lint_python:
