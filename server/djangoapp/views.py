@@ -1,12 +1,12 @@
 # Uncomment the required imports before adding the code
 
-#from django.shortcuts import render
-#from django.http import HttpResponseRedirect, HttpResponse
+# from django.shortcuts import render
+# from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-#from django.shortcuts import get_object_or_404, redirect
+# from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth import logout
-#from django.contrib import messages
-#from datetime import datetime
+# from django.contrib import messages
+# from datetime import datetime
 
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
@@ -54,7 +54,7 @@ def registration(request):
     last_name = data['lastName']
     email = data['email']
     username_exist = False
-    #email_exist = False
+    # email_exist = False
     try:
         # Check if user already exists
         User.objects.get(username=username)
@@ -67,16 +67,16 @@ def registration(request):
     # If it is a new user
     if not username_exist:
         # Create user in auth_user table
-        user = User.objects.create_user(username=username, 
-                                        first_name=first_name, 
+        user = User.objects.create_user(username=username,
+                                        first_name=first_name,
                                         last_name=last_name,
-                                        password=password, 
+                                        password=password,
                                         email=email)
         # Login the user and redirect to list page
         login(request, user)
         data = {"userName": username, "status": "Authenticated"}
         return JsonResponse(data)
-    else :
+    else:
         data = {"userName": username, "error": "Already Registered"}
         return JsonResponse(data)
 
@@ -96,14 +96,16 @@ def get_cars(request):
     car_models = CarModel.objects.select_related('car_make')
     cars = []
     for car_model in car_models:
-        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
+        cars.append({"CarModel": car_model.name, 
+                     "CarMake": car_model.car_make.name})
     return JsonResponse({"CarModels": cars})
 
 
 # # Update the `get_dealerships` view to render the index page with
 # a list of dealerships
 # def get_dealerships(request):
-#Update the `get_dealerships` render list of dealerships all by default, particular state if state is passed
+# Update the `get_dealerships` render list of dealerships all by default, 
+# particular state if state is passed
 def get_dealerships(request, state="All"):
     if (state == "All"):
         endpoint = "/fetchDealers"
@@ -146,10 +148,12 @@ def add_review(request):
     if request.user.is_anonymous is False:
         data = json.loads(request.body)
         try:
-            response = post_review(data)
+            # response = post_review(data)
+            post_review(data)
             return JsonResponse({"status": 200})
         except Exception as err:
             print(f"Error: {err}")
-            return JsonResponse({"status": 401, "message": "Error in posting review"})
+            return JsonResponse({"status": 401, 
+                                 "message": "Error in posting review"})
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
