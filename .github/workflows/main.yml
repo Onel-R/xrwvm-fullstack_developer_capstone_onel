@@ -2,11 +2,11 @@ name: 'Lint Code'
 
 on:
   push:
-    branches: [master, main]
-    types: [synchronize]
+    branches: ['master', 'main']
+    types: [labeled, reopened, synchronize, ready_for_review]
   pull_request:
-    branches: [master, main]
-    types: [synchronize]
+    branches: ['master', 'main']
+    types: [labeled, reopened, synchronize, ready_for_review]
   workflow_dispatch:
     inputs:
       logLevel:
